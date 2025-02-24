@@ -48,6 +48,7 @@ class ProjectController extends Controller
     {
         $project->update($request->only(['name', 'status']));
 
+        // TODO: edge case, if no attributes are sent. should we remove existing?
         if ($request->has('attributes') && count($request->input('attributes')) > 0) {
             foreach ($request->input('attributes') as $attr) {
                 if (isset($attr['id']) && isset($attr['value'])) {
@@ -57,6 +58,10 @@ class ProjectController extends Controller
                     );
                 }
             }
+        } else {
+            AttributeValue::where('entity_id', $project
+                ->id)
+                ->delete();
         }
 
         return response()->json($project->load('attributes.attribute'));
