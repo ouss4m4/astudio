@@ -31,9 +31,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function projects(): HasOne
+    public function projects()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(Project::class, 'project_user');
     }
 
     public function timesheets()
