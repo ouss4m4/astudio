@@ -23,4 +23,9 @@ class Project extends Model
     {
         return $this->hasMany(Timesheet::class);
     }
+
+    public function attributes()
+    {
+        return $this->hasMany(AttributeValue::class, 'entity_id');
+    }
 }
