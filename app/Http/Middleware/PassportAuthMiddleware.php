@@ -11,9 +11,13 @@ class PassportAuthMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('api')->guest()) {
+        $user = Auth::guard('api')->user();
+
+        if (! $user) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
+
+        Auth::setUser($user);
 
         return $next($request);
     }

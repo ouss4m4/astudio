@@ -10,7 +10,8 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        return Project::with('attributes.attribute')->get();
+
+        return Project::with('attributes.attribute')->thisUser()->get();
     }
 
     // TODO: add request validation

@@ -28,4 +28,11 @@ class Project extends Model
     {
         return $this->hasMany(AttributeValue::class, 'entity_id');
     }
+
+    public function scopeThisUser($query)
+    {
+        return $query->whereHas('users', function ($q) {
+            $q->where('user_id', auth()->id());
+        });
+    }
 }
