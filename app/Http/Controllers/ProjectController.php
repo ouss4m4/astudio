@@ -18,13 +18,15 @@ class ProjectController extends Controller
     {
         $project = Project::create($request->only(['name', 'status']));
 
-        if ($request->has('attributes')) {
-            foreach ($request->attributes as $attr) {
-                AttributeValue::create([
-                    'attribute_id' => $attr['id'],
-                    'entity_id' => $project->id,
-                    'value' => $attr['value'],
-                ]);
+        if ($request->has('attributes') && count($request->input('attributes')) > 0) {
+            foreach ($request->input('attributes') as $attr) {
+                if (isset($attr['id']) && isset($attr['value'])) {
+                    AttributeValue::create([
+                        'attribute_id' => $attr['id'],
+                        'entity_id' => $project->id,
+                        'value' => $attr['value'],
+                    ]);
+                }
             }
         }
 
@@ -46,11 +48,15 @@ class ProjectController extends Controller
     {
         $project->update($request->only(['name', 'status']));
 
-        foreach ($request->attributes as $attr) {
-            AttributeValue::updateOrCreate(
-                ['attribute_id' => $attr['id'], 'entity_id' => $project->id],
-                ['value' => $attr['value']]
-            );
+        if ($request->has('attributes') && count($request->input('attributes')) > 0) {
+            foreach ($request->input('attributes') as $attr) {
+                if (isset($attr['id']) && isset($attr['value'])) {
+                    AttributeValue::updateOrCreate(
+                        ['attribute_id' => $attr['id'], 'entity_id' => $project->id],
+                        ['value' => $attr['value']]
+                    );
+                }
+            }
         }
 
         return response()->json($project->load('attributes.attribute'));
