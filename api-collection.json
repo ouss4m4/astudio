@@ -51,6 +51,7 @@
 						"exec": [
 							"// Save the 'token' response in environment variable 'token'",
 							"pm.collectionVariables.set('token', pm.response.json().token);",
+							"pm.collectionVariables.set('user_id', pm.response.json().user.id);",
 							""
 						],
 						"type": "text/javascript",
@@ -284,7 +285,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"status\": \"done\"\n}",
+					"raw": "{\n    \"status\": \"done\",\n    \"attributes\": [\n        {\n            \"id\": \"3\",\n            \"value\": \"2025-02-25\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -363,7 +364,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/timesheets?filters[project_id]=4",
+					"raw": "http://127.0.0.1:8000/api/timesheets?filters[project_id]={{project_id}}",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -379,8 +380,78 @@
 					"query": [
 						{
 							"key": "filters[project_id]",
-							"value": "4"
+							"value": "{{project_id}}"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get timesheet for user_id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/timesheets?filters[user_id]={{user_id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"timesheets"
+					],
+					"query": [
+						{
+							"key": "filters[user_id]",
+							"value": "{{user_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout user",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Beaer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/logout",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"logout"
 					]
 				}
 			},
@@ -389,15 +460,15 @@
 	],
 	"variable": [
 		{
-			"key": "project_id",
-			"value": ""
-		},
-		{
 			"key": "token",
 			"value": ""
 		},
 		{
 			"key": "user_id",
+			"value": ""
+		},
+		{
+			"key": "project_id",
 			"value": ""
 		}
 	]

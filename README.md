@@ -35,6 +35,100 @@ composer run dev
 
 ## API Documentation
 
+### Available Endpoints
+
+#### Authentication
+
+1. POST /api/register
+
+```c#
+{
+    // Create User
+    "first_name": string,
+    "last_name": string,
+    "email": string,
+    "password": string
+}
+```
+
+2. POST /api/login
+
+```c#
+{
+    // Login User
+    "email": string,
+    "password": string
+}
+```
+
+3. POST /api/logout
+
+#### Projects
+
+1.  GET /api/projects
+2.  POST /api/projects
+
+```c#
+{
+    "name": string,
+    "status": string // "todo" | "progress" | "done"
+    "attributes": [
+        {
+            "id": number,
+            "value": string
+        }
+    ]
+}
+```
+
+3.  GET /api/projects/{id}
+4.  PATCH /api/projects/{id}
+
+```c#
+{
+    // partial update of project
+    "status": string // "todo" | "progress" | "done"
+    "users": int[] // ids of users
+}
+```
+
+5.  DELETE /api/projects/{id}
+
+#### Timesheets
+
+1.  GET /api/timesheets
+2.  POST /api/timesheets
+
+```c#
+{
+    "user_id": int,
+    "project_id": int,
+    "date": string,
+    "hours": int,
+    "task_name": string
+}
+```
+
+3.  GET /api/timesheets/{id}
+4.  PATCH /api/timesheets/{id}
+5.  DELETE /api/timesheets/{id}
+
+#### Attributes
+
+1.  GET /api/attributes
+2.  POST /api/attributes
+
+```c#
+{
+    "name": string,
+    "type": string
+}
+```
+
+3.  GET /api/attributes/{id}
+4.  PATCH /api/attributes/{id}
+5.  DELETE /api/attributes/{id}
+
 ## API Test Requests
 
 ### POSTMAN (recomended)
