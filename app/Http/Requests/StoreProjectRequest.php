@@ -30,6 +30,8 @@ class StoreProjectRequest extends FormRequest
             'attributes' => 'array',
             'attributes.*.id' => 'required_with:attributes|exists:attributes,id',
             'attributes.*.value' => 'required_with:attributes|string|max:255',
+            'users' => 'sometimes|array',
+            'users.*' => 'exists:users,id',
         ];
     }
 }

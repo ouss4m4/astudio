@@ -20,6 +20,7 @@ class ProjectController extends Controller
 
         $project = Project::create($request->only(['name', 'status']));
 
+        // attributes (eav)
         if ($request->has('attributes') && count($request->input('attributes')) > 0) {
             foreach ($request->input('attributes') as $attr) {
                 if (isset($attr['id']) && isset($attr['value'])) {
@@ -32,7 +33,17 @@ class ProjectController extends Controller
             }
         }
 
-        return response()->json($project->load('attributes.attribute'), 201);
+        // users if existing
+        if ($request->has('users')) {
+
+            $validUsers = User::whereIn('id', $request->input('users'))->pluck('id')->toArray();
+
+            if (count($validUsers) > 0) {
+                $project->users()->sync($validUsers);
+            }
+        }
+
+        return response()->json($project->load(['attributes.attribute', 'users']), 201);
     }
 
     public function show(string $id)
@@ -42,10 +53,10 @@ class ProjectController extends Controller
             return response()->json(['message' => 'Not found'], 404);
         }
 
-        return response()->json($project->load('attributes.attribute'));
+        return response()->json($project->load(['attributes.attribute', 'users']));
     }
 
-    // TODO: add request validation
+    
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $project->update($request->only(['name', 'status']));
