@@ -9,7 +9,7 @@ class TimesheetSeeder extends Seeder
 {
     public function run(): void
     {
-        Timesheet::factory()->count(30)->create();
+        Timesheet::factory()->count(4)->create();
 
     }
 }
