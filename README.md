@@ -41,19 +41,18 @@ composer run dev
 
 1. POST /api/register
 
-```c#
+```json
 {
-    // Create User
-    "first_name": string,
-    "last_name": string,
-    "email": string,
-    "password": string
+    "first_name": "string",
+    "last_name": "string",
+    "email": "string",
+    "password": "string"
 }
 ```
 
 2. POST /api/login
 
-```c#
+```json
 {
     // Login User
     "email": string,
@@ -68,7 +67,7 @@ composer run dev
 1.  GET /api/projects
 2.  POST /api/projects
 
-```c#
+```json
 {
     "name": string,
     "status": string // "todo" | "progress" | "done"
@@ -84,7 +83,7 @@ composer run dev
 3.  GET /api/projects/{id}
 4.  PATCH /api/projects/{id}
 
-```c#
+```json
 {
     // partial update of project
     "status": string // "todo" | "progress" | "done"
@@ -99,7 +98,7 @@ composer run dev
 1.  GET /api/timesheets
 2.  POST /api/timesheets
 
-```c#
+```json
 {
     "user_id": int,
     "project_id": int,
@@ -118,7 +117,7 @@ composer run dev
 1.  GET /api/attributes
 2.  POST /api/attributes
 
-```c#
+```json
 {
     "name": string,
     "type": string
