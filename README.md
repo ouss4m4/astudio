@@ -14,6 +14,7 @@ git clone https://github.com/ouss4m4/astudio.git
 cd astudio
 composer install
 npm install
+npm run build
 ```
 
 copy the `.env.example` to `.env` file and edit the database credentials
