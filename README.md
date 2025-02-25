@@ -54,9 +54,8 @@ composer run dev
 
 ```json
 {
-    // Login User
-    "email": string,
-    "password": string
+    "email": "string",
+    "password": "string"
 }
 ```
 
@@ -69,12 +68,12 @@ composer run dev
 
 ```json
 {
-    "name": string,
-    "status": string // "todo" | "progress" | "done"
+    "name": "string",
+    "status": "string", // "todo" | "progress" | "done"
     "attributes": [
         {
-            "id": number,
-            "value": string
+            "id": "int",
+            "value": "string"
         }
     ]
 }
@@ -86,8 +85,8 @@ composer run dev
 ```json
 {
     // partial update of project
-    "status": string // "todo" | "progress" | "done"
-    "users": int[] // ids of users
+    "status": "string", // "todo" | "progress" | "done"
+    "users": [1] // ids of users
 }
 ```
 
@@ -100,11 +99,11 @@ composer run dev
 
 ```json
 {
-    "user_id": int,
-    "project_id": int,
-    "date": string,
-    "hours": int,
-    "task_name": string
+    "user_id": "int",
+    "project_id": "int",
+    "date": "string",
+    "hours": "int",
+    "task_name": "string"
 }
 ```
 
@@ -119,8 +118,8 @@ composer run dev
 
 ```json
 {
-    "name": string,
-    "type": string
+    "name": "string",
+    "type": "string"
 }
 ```
 
