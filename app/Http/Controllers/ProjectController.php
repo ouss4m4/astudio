@@ -12,7 +12,11 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        return Project::with('attributes.attribute')->get();
+
+        $filters = request()->input('filters', []);
+        $projects = Project::filter($filters)->with('attributes.attribute', 'users')->get();
+
+        return response()->json($projects);
     }
 
     public function store(StoreProjectRequest $request)
@@ -56,7 +60,6 @@ class ProjectController extends Controller
         return response()->json($project->load(['attributes.attribute', 'users']));
     }
 
-    
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $project->update($request->only(['name', 'status']));
