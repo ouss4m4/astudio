@@ -7,23 +7,28 @@ Requirements:
 -   php and composer installed
 -   mysql
 
-Clone the repo
+Clone the repo and run composer install and npm install
 
 ```shell
 git clone https://github.com/ouss4m4/astudio.git
+cd astudio
+composer install
+npm install
 ```
 
 copy the `.env.example` to `.env` file and edit the database credentials
 
-Run migrations/seed
+Generate a key and Run migrations/seed
 
 ```shell
+php artisan key:generate
 php artisan migrate:fresh --seed
 ```
 
 Generate a Laravel Passport Personal Access Client
 
 ```shell
+php artisan passport:keys
 php artisan passport:client --personal
 ```
 
@@ -32,6 +37,8 @@ Start the server
 ```shell
 composer run dev
 ```
+
+Server should be running on http://127.0.0.1:8000 (check terminal if you encounter port errors)
 
 ## API Documentation
 
