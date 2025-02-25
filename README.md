@@ -248,6 +248,16 @@ curl --location --globoff 'http://127.0.0.1:8000/api/projects?filters[status]=do
 --header "Authorization: Bearer $TOKEN"
 ```
 
+
+## SqlDump
+if you encounter any problems with migrations/seed 
+you can use the sql dump `astudio_backup.sql` bu running
+```shell
+mysql -u root -e "CREATE DATABASE astudio;"
+mysql -u root astudio < ./astudio_backup.sql
+```
+```
+
 ## Models
 
 ### User
