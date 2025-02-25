@@ -12,7 +12,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']);
 
-Route::middleware([PassportAuthMiddleware::class])->group(function () {
+Route::middleware(PassportAuthMiddleware::class)->group(function () {
     Route::apiResource('projects', ProjectController::class);
     Route::apiResource('timesheets', TimesheetController::class);
     Route::apiResource('attributes', AttributeController::class);

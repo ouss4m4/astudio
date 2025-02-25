@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Models\AttributeValue;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -10,13 +12,12 @@ class ProjectController extends Controller
 {
     public function index()
     {
-
-        return Project::with('attributes.attribute')->thisUser()->get();
+        return Project::with('attributes.attribute')->get();
     }
 
-    // TODO: add request validation
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
+
         $project = Project::create($request->only(['name', 'status']));
 
         if ($request->has('attributes') && count($request->input('attributes')) > 0) {
@@ -45,8 +46,9 @@ class ProjectController extends Controller
     }
 
     // TODO: add request validation
-    public function update(Request $request, Project $project)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
+        
         $project->update($request->only(['name', 'status']));
 
         // TODO: edge case, if no attributes are sent. should we remove existing?

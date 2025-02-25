@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attribute;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AttributeController extends Controller
 {
@@ -24,6 +25,15 @@ class AttributeController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'type' => 'required|string|in:text,date,number,select',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
         return Attribute::create($request->only(['name', 'type']));
     }
 
