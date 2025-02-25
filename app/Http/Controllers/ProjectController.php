@@ -6,7 +6,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\AttributeValue;
 use App\Models\Project;
-use Illuminate\Http\Request;
+use App\Models\User;
 
 class ProjectController extends Controller
 {
@@ -48,7 +48,6 @@ class ProjectController extends Controller
     // TODO: add request validation
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        
         $project->update($request->only(['name', 'status']));
 
         // TODO: edge case, if no attributes are sent. should we remove existing?
@@ -61,13 +60,26 @@ class ProjectController extends Controller
                     );
                 }
             }
-        } else {
-            AttributeValue::where('entity_id', $project
-                ->id)
-                ->delete();
+        }
+        // else {
+        //     AttributeValue::where('entity_id', $project
+        //         ->id)
+        //         ->delete();
+        // }
+
+        // assign/remove users
+        if ($request->has('users')) {
+            $userIds = array_map('intval', $request->input('users')); // Ensure integer values
+            $validUsers = User::whereIn('id', $userIds)->pluck('id')->toArray();
+
+            if (count($validUsers) > 0) {
+                $project->users()->sync($validUsers);
+            } elseif ($request->input('users') === []) {
+                $project->users()->detach();
+            }
         }
 
-        return response()->json($project->load('attributes.attribute'));
+        return response()->json($project->load(['attributes.attribute', 'users']));
     }
 
     public function destroy(Project $project)

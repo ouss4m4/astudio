@@ -8,8 +8,6 @@ use Illuminate\Validation\ValidationException;
 
 class UpdateProjectRequest extends FormRequest
 {
-    
-
     public function authorize(): bool
     {
         return true;
@@ -26,11 +24,13 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'status' => 'required|in:todo,progress,done',
-            'attributes' => 'array',
+            'name' => 'sometimes|required|string|max:255',
+            'status' => 'sometimes|required|in:todo,progress,done',
+            'attributes' => 'sometimes|array',
             'attributes.*.id' => 'required_with:attributes|exists:attributes,id',
             'attributes.*.value' => 'required_with:attributes|string|max:255',
+            'users' => 'sometimes|array',
+            'users.*' => 'exists:users,id',
         ];
     }
 }
