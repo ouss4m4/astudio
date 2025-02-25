@@ -10,7 +10,10 @@ class TimesheetController extends Controller
 {
     public function index()
     {
-        return response()->json(Timesheet::all());
+        $filters = request()->input('filters', []);
+        $projects = Timesheet::filter($filters)->get();
+
+        return response()->json($projects);
     }
 
     public function store(StoreTimesheetRequest $request)
