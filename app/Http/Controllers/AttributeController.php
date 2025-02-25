@@ -39,6 +39,13 @@ class AttributeController extends Controller
 
     public function update(Request $request, Attribute $attribute)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'type' => 'required|string|in:text,date,number,select',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
         $attribute->update($request->only(['name', 'type']));
 
         return response()->json($attribute);

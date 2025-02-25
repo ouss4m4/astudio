@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTimesheetRequest;
+use App\Http\Requests\UpdateTimesheetRequest;
 use App\Models\Timesheet;
-use Illuminate\Http\Request;
 
 class TimesheetController extends Controller
 {
@@ -12,35 +13,48 @@ class TimesheetController extends Controller
         return response()->json(Timesheet::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreTimesheetRequest $request)
     {
-        //
+        $timesheet = Timesheet::create($request->only(['user_id', 'project_id', 'date', 'hours', 'task_name']));
+
+        return response()->json($timesheet, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $timesheet = Timesheet::whereId($id)->first();
+        if (! $timesheet) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+
+        return response()->json($timesheet->load(['user', 'project']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(UpdateTimesheetRequest $request, Timesheet $timesheet)
     {
-        //
+        // should timesheet support partial update?
+        $data = $request->only(['user_id', 'project_id', 'date', 'hours', 'task_name']);
+        foreach ($data as $key => $value) {
+            if ($value !== null) {
+                $timesheet->$key = $value;
+            }
+        }
+        $timesheet->save();
+
+        // $timesheet->update($request->only(['user_id', 'project_id', 'date', 'hours', 'task_name']));
+
+        return response()->json($timesheet->load(['user', 'project']));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $timesheet = Timesheet::whereId($id)->first();
+        if (! $timesheet) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+
+        $timesheet->delete();
+
+        return response()->json(['message' => 'Deleted successfully']);
     }
 }
