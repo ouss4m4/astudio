@@ -1,4 +1,6 @@
-# Steps To Run
+# Project Manager Sample API with Laravel
+
+## Steps to run
 
 Requirements:
 
@@ -31,18 +33,18 @@ Start the server
 composer run dev
 ```
 
-# API Document
+## API Documentation
 
-# API Test Requests
+## API Test Requests
 
-## POSTMAN (recomended)
+### POSTMAN (recomended)
 
 import the `api-collection.json` in postman
 and you should see requests like this
 
 ![postman request](./postman.png)
 
-## Curl
+### Curl (optional)
 
 ### Register a new user
 
@@ -146,21 +148,21 @@ curl --location --globoff 'http://127.0.0.1:8000/api/projects?filters[status]=do
 --header "Authorization: Bearer $TOKEN"
 ```
 
-# Models
+## Models
 
-## User
+### User
 
 -   first_name
 -   last_name
 -   email
 -   password
 
-## Project
+### Project
 
 -   name
 -   status
 
-## Timesheet
+### Timesheet
 
 -   task_name
 -   date
@@ -168,7 +170,7 @@ curl --location --globoff 'http://127.0.0.1:8000/api/projects?filters[status]=do
 -   project_id
 -   user_id
 
-## Project_user
+### Project_user
 
 -   project_id
 -   user_id
